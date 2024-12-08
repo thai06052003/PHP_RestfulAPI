@@ -1,10 +1,14 @@
 <?php
 
 use App\Middlewares\AuthMiddleware;
+use App\Middlewares\CorsMiddleware;
 use App\Middlewares\RateLimitMiddleware;
 use Pecee\SimpleRouter\SimpleRouter as Route;
 
 /* Load external routes file */
+Route::get('/', function() {
+    return '<h1>API Refrence</h1>';
+});
 
 Route::group(['prefix' => 'api'], function () {
     Route::group(['prefix' => 'v1', 'namespace' => '\App\Controllers\V1'], function () {
@@ -19,6 +23,8 @@ Route::group(['prefix' => 'api'], function () {
         Route::post('/auth/refresh-token', 'AuthController@refresh');
         Route::group(['middleware' => AuthMiddleware::class], function() {
             Route::get('/auth/profile', 'AuthController@profile');
+            Route::patch('/auth/profile', 'AuthController@updateProfile');
+            Route::post('/auth/profile', 'AuthController@updateProfile');
             Route::get('/my-courses', 'UserController@courses');
             Route::post('/auth/logout', 'AuthController@logout');
         });

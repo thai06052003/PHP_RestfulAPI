@@ -1,0 +1,6 @@
+<?php
+if (!empty($_SERVER['argv'][1]) && $_SERVER['argv'][1] === 'server') {
+    $host == !empty($_SERVER['argv'][2]) ? $_SERVER['argv'][2] : '127.0.0.1';
+    $post == !empty($_SERVER['argv'][2]) ? $_SERVER['argv'][2] : '8000';
+    system('cd public && php -S '.$host.':'.$post);
+}

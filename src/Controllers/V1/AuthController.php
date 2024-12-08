@@ -2,6 +2,7 @@
 
 namespace App\Controllers\V1;
 
+use Error;
 use Exception;
 use App\Models\User;
 use Firebase\JWT\JWT;
@@ -9,6 +10,7 @@ use Firebase\JWT\Key;
 use System\Core\Auth;
 use App\Models\RefreshToken;
 use App\Models\BlacklistToken;
+use Rakit\Validation\Validator;
 use App\Transformers\UserTransform;
 use App\Transformers\UserTransformer;
 
@@ -58,10 +60,92 @@ class AuthController
             'refresh_token' => $refreshToken
         ]);
     }
-    //
+    // Get profile user
     public function profile()
     {
-        return successResponse(200, Auth::user());
+        $user = Auth::user();
+        if ($user->avatar) {
+            $user->avatar = (!empty($_SERVER['HTTPS']) ? 'https://' : 'http://') . $_SERVER['HTTP_HOST'] . $user->avatar;
+        }
+        return successResponse(200, $user);
+    }
+    //
+    public function updateProfile()
+    {
+        $id = Auth::user()->id;
+
+        $validator = new Validator;
+        $validator->setMessages([
+            'required' => ':attribute bắt buộc phải nhập',
+            'email:email' => ':attribute phải đúng định dạng',
+            'min' => ':attribute phải từ :min ký tự',
+        ]);
+        $rules = [
+            'name' => 'required',
+            'email' => [
+                'required',
+                'email',
+                function ($email) use ($id) {
+                    $user = new User();
+                    if ($user->existEmail($email, $id)) {
+                        return ":attribute đã tồn tại trên hệ thống";
+                    }
+                    return true;
+                }
+            ],
+        ];
+
+        $validation = $validator->make(input()->all(), $rules);
+        $validation->setAliases([
+            'name' => 'Tên',
+            'email' => 'Email',
+            'status' => 'Trạng thái',
+        ]);
+        $validation->validate();
+        if ($validation->fails()) {
+            $errors = $validation->errors();
+            return errorResponse(
+                status: 400,
+                message: 'Bad request',
+                errors: $errors->firstOfAll(),
+            );
+        }
+        $data = [
+            'name' => input('name'),
+            'email' => input('email'),
+            'updated_at' => date('Y-m-d H:i:s'),
+        ];
+
+        $avatar = input()->file('avatar');
+        $allowed = ['image/jpg', 'image/png', 'image/jpeg'];
+        if ($avatar) {
+            if ($avatar && in_array($avatar->getMime(), $allowed)) {
+                $destinationFilname = sprintf('%s.%s', uniqid(), $avatar->getExtension());
+                $status = $avatar->move(sprintf('./uploads/%s', $destinationFilname));
+                if ($status) {
+                    $data['avatar'] = "/uploads/$destinationFilname";
+                }
+            }
+            else {
+                return errorResponse(400, "Định dạng ảnh không hợp lệ");
+            }
+        }
+
+        // Update
+        try {
+            $model = new User();
+            $status = $model->update($id, $data);
+            if ($status) {
+                $user = $model->getOne($id);
+                $user->avatar = (!empty($_SERVER['HTTPS']) ? 'https://' : 'http://') . $_SERVER['HTTP_HOST'] . $user->avatar;
+                return successResponse(data: $user);
+            }
+            throw new Error("Server Error");
+        } catch (Exception $e) {
+            return errorResponse(500, "Server Error");
+        } catch (Error $e) {
+            return errorResponse(500, $e->getMessage());
+        }
     }
     //
     public function refresh()

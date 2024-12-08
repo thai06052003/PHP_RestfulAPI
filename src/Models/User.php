@@ -25,7 +25,7 @@ class User extends Model {
     // Lấy ra 1 User
     function getOne($value, $type = 'id') {
         return $this->db
-        ->select('id', 'name', 'email', 'password', 'status', 'created_at', 'updated_at')
+        ->select('id', 'name', 'email', 'password', 'avatar', 'status', 'created_at', 'updated_at')
         ->table('users')
         ->where($type, $value)
         ->first();
