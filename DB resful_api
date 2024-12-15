@@ -1,0 +1,305 @@
+-- phpMyAdmin SQL Dump
+-- version 5.2.1
+-- https://www.phpmyadmin.net/
+--
+-- Máy chủ: 127.0.0.1
+-- Thời gian đã tạo: Th12 15, 2024 lúc 11:40 AM
+-- Phiên bản máy phục vụ: 10.4.32-MariaDB
+-- Phiên bản PHP: 8.2.12
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+START TRANSACTION;
+SET time_zone = "+00:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
+
+--
+-- Cơ sở dữ liệu: `resful_api`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Cấu trúc bảng cho bảng `blacklist_tokens`
+--
+
+CREATE TABLE `blacklist_tokens` (
+  `id` int(11) NOT NULL,
+  `token` varchar(200) DEFAULT NULL,
+  `expire` timestamp NULL DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Cấu trúc bảng cho bảng `courses`
+--
+
+CREATE TABLE `courses` (
+  `id` int(11) NOT NULL,
+  `name` varchar(200) DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `courses`
+--
+
+INSERT INTO `courses` (`id`, `name`, `created_at`, `updated_at`) VALUES
+(1, 'Khóa học 1', '2024-11-27 09:14:17', '2024-11-27 09:14:17'),
+(2, 'Khóa học 2', '2024-11-27 09:14:17', '2024-11-27 09:14:17'),
+(3, 'Khóa học 3', '2024-11-27 09:14:17', '2024-11-27 09:14:17'),
+(4, 'Khóa học 4', '2024-11-27 09:14:17', '2024-11-27 09:14:17');
+
+-- --------------------------------------------------------
+
+--
+-- Cấu trúc bảng cho bảng `rate_limit`
+--
+
+CREATE TABLE `rate_limit` (
+  `id` int(11) NOT NULL,
+  `ip_address` varchar(50) DEFAULT NULL,
+  `request_number` int(11) DEFAULT NULL,
+  `start_time` timestamp NULL DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Cấu trúc bảng cho bảng `refresh_tokens`
+--
+
+CREATE TABLE `refresh_tokens` (
+  `id` int(11) NOT NULL,
+  `refresh_token` varchar(200) DEFAULT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `refresh_tokens`
+--
+
+INSERT INTO `refresh_tokens` (`id`, `refresh_token`, `user_id`, `created_at`, `updated_at`) VALUES
+(2, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEzLCJleHAiOjE3MzM0Nzk5MjcsImlhdCI6MTczMjg3NTEyN30.yFvHDNXLkXrby3oUDIMY4g68srjlWa684tKY3HF9mZI', 13, '2024-11-29 10:12:07', '2024-11-29 10:12:07'),
+(3, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEzLCJleHAiOjE3MzM1NTgwNDIsImlhdCI6MTczMjk1MzI0Mn0.Spw7oG9Ywnb_to4nS1rI3h70wNm6X2lHGG2eSxUUri4', 13, '2024-11-30 07:54:02', '2024-11-30 07:54:02'),
+(4, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEzLCJleHAiOjE3MzM1NjE3MjcsImlhdCI6MTczMjk1NjkyN30.z9C5cIknT5Mu4XmrBqAUZwnxYXV2QYYljD7rJzXfUtk', 13, '2024-11-30 08:55:27', '2024-11-30 08:55:27'),
+(5, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEzLCJleHAiOjE3MzM1NjMzOTEsImlhdCI6MTczMjk1ODU5MX0.zW8MWigfHKFzNsmG4mlJQxPe7joH1Rh7YrT6a8itYyc', 13, '2024-11-30 09:23:11', '2024-11-30 09:23:11'),
+(6, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEzLCJleHAiOjE3MzM1NjM3OTUsImlhdCI6MTczMjk1ODk5NX0.YZ2fSw1sXz9Vp1boEYijX6D4hI_7FmP3cROx34fUuT0', 13, '2024-11-30 09:29:55', '2024-11-30 09:29:55'),
+(7, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEzLCJleHAiOjE3MzM1NjM3OTYsImlhdCI6MTczMjk1ODk5Nn0.YCD6LIwYIjCcORTEozQ04LNP4wVaQZeeKqIXp3PhD8Q', 13, '2024-11-30 09:29:56', '2024-11-30 09:29:56'),
+(8, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEzLCJleHAiOjE3MzM1NjM3OTgsImlhdCI6MTczMjk1ODk5OH0.Ypi1dkuO6HqBSigggCG-rWACc58HiPPw-V_08o7qmqI', 13, '2024-11-30 09:29:58', '2024-11-30 09:29:58'),
+(9, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEzLCJleHAiOjE3MzM1NjQ5NzQsImlhdCI6MTczMjk2MDE3NH0.42vDYgdDyVjc6TzldIfa-i4Gc-lUab_8pA0-xt96ZHg', 13, '2024-11-30 09:49:34', '2024-11-30 09:49:34'),
+(10, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEzLCJleHAiOjE3MzM1Njc3NDMsImlhdCI6MTczMjk2Mjk0M30.j0iypknxfeZJqOdRXzTLPLuQAN4RWgvWkJwjCkq2l7Y', 13, '2024-11-30 10:35:43', '2024-11-30 10:35:43'),
+(11, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEzLCJleHAiOjE3MzM4MjI5MTcsImlhdCI6MTczMzIxODExN30.b5HzAzzVkav9lI_kyvagHwsXuvkeceVY-gK8Sop7Bus', 13, '2024-12-03 09:28:37', '2024-12-03 09:28:37'),
+(12, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEzLCJleHAiOjE3MzM5MDM2MzcsImlhdCI6MTczMzI5ODgzN30.9MhiqF6ideYJX5IBa1cQE8OKvIBiAb4KKPpFo0V74t8', 13, '2024-12-04 07:53:57', '2024-12-04 07:53:57'),
+(13, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEzLCJleHAiOjE3MzM5MDYzNjQsImlhdCI6MTczMzMwMTU2NH0.vMaQj2QqBEsTvNO53nHI_0xPuOUJJpacUa1hFgmFRwA', 13, '2024-12-04 08:39:24', '2024-12-04 08:39:24'),
+(14, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEzLCJleHAiOjE3MzM5MTE1MTIsImlhdCI6MTczMzMwNjcxMn0.fWwQiy6gOJQAjTtIM1OSe0J31vjozelceiv7AXZ-YdY', 13, '2024-12-04 10:05:12', '2024-12-04 10:05:12'),
+(15, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEzLCJleHAiOjE3MzM5MjQ4MDEsImlhdCI6MTczMzMyMDAwMX0.P2WGYS_BY2y712l0sKhxfmj1p1NzLCEWogj0k784ogU', 13, '2024-12-04 13:46:41', '2024-12-04 13:46:41'),
+(16, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEzLCJleHAiOjE3MzM5MjQ4NjcsImlhdCI6MTczMzMyMDA2N30.2dDQKb9LqAXqZmnvfYvmT6yRy61_zajxSVRFLOm03co', 13, '2024-12-04 13:47:47', '2024-12-04 13:47:47'),
+(17, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEzLCJleHAiOjE3MzM5OTc0MDUsImlhdCI6MTczMzM5MjYwNX0.ECPDrTLr184e7hnd8f6Y3XiMFO0IkM6RMrhqQdAtDxU', 13, '2024-12-05 09:56:45', '2024-12-05 09:56:45'),
+(18, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjExLCJleHAiOjE3MzQyNTE1MTUsImlhdCI6MTczMzY0NjcxNX0.P3cp-oHnjyhjTwZLfGRX8PM3KmOzZZ5lKui0c8h9evY', 11, '2024-12-08 08:31:55', '2024-12-08 08:31:55'),
+(19, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjExLCJleHAiOjE3MzQyNTE2MjksImlhdCI6MTczMzY0NjgyOX0.uG2m-fEU20eBmKl6727Iwr4G4Hpg76z5n3POTzHw5Ls', 11, '2024-12-08 08:33:49', '2024-12-08 08:33:49'),
+(20, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEzLCJleHAiOjE3MzQyNTE3NDAsImlhdCI6MTczMzY0Njk0MH0.OnMYsBUCc2ok6TjOZcQfrmuDyhQBofof4HT1XKI8KW4', 13, '2024-12-08 08:35:40', '2024-12-08 08:35:40'),
+(21, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEzLCJleHAiOjE3MzQyNTgxMDIsImlhdCI6MTczMzY1MzMwMn0.1u9tc7ul6emZpkyQFx9jZjAs8d1TZKJXKnzwuC7RP2M', 13, '2024-12-08 10:21:42', '2024-12-08 10:21:42');
+
+-- --------------------------------------------------------
+
+--
+-- Cấu trúc bảng cho bảng `request_log`
+--
+
+CREATE TABLE `request_log` (
+  `id` int(11) NOT NULL,
+  `ip_address` varchar(50) DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Cấu trúc bảng cho bảng `users`
+--
+
+CREATE TABLE `users` (
+  `id` int(11) NOT NULL,
+  `name` varchar(50) DEFAULT NULL,
+  `email` varchar(100) DEFAULT NULL,
+  `password` varchar(100) DEFAULT NULL,
+  `avatar` varchar(100) DEFAULT NULL,
+  `status` tinyint(1) DEFAULT 0,
+  `api_key` varchar(100) DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `users`
+--
+
+INSERT INTO `users` (`id`, `name`, `email`, `password`, `avatar`, `status`, `api_key`, `created_at`, `updated_at`) VALUES
+(11, 'User 2', 'user2@gmail.com', '$2y$10$zrqAd1cH5CfJ8W6T1rb/7uuQ7flxHq9bU5LMjjqEyavew1ixQrGYG', NULL, 1, NULL, '2024-11-14 22:45:05', '2024-11-14 22:45:05'),
+(12, 'xuan thai', 'xuanthai0304@gmail.com', NULL, NULL, 0, NULL, NULL, NULL),
+(13, 'User 1', 'user1@gmail.com', '$2y$10$IeYPq93psAe73MBh6tGLyewl2ODFOmNVQTLKQR2fIV.BBcFHST5Eu', '/uploads/67517f7596a59.jpg', 1, NULL, '2024-11-19 03:07:14', '2024-12-05 10:24:53'),
+(14, 'User 14', 'user14@gmail.com', '$2y$10$qYIumYI8LbOV4quTgZN/WeH1gQWdgm05KHE7S9XzugT.P9a7jGKzy', NULL, 0, NULL, '2024-11-19 03:07:22', '2024-11-19 03:07:22'),
+(15, 'User 15', 'user15@gmail.com', '$2y$10$7LTmGNhZwEK5SsKpV3bnSOh5NZBNYrx/dGwTudtG6rqBp6jSAxo0a', NULL, 0, NULL, '2024-11-19 03:07:26', '2024-11-19 03:07:26'),
+(16, 'User 16', 'user16@gmail.com', '$2y$10$v4EMPAdxYjs8.c90bPU94.tHRUX8DW7wYrQhv22kvbLmTShgczbJq', NULL, 0, NULL, '2024-11-19 03:07:30', '2024-11-19 03:07:30'),
+(17, 'User 17', 'user17@gmail.com', '$2y$10$r94cu6MCzm1F5cDadfwsROj3SYdIHFc4QCcUc4gzMi3NxKDhgs2oe', NULL, 0, NULL, '2024-11-19 03:07:36', '2024-11-19 03:07:36'),
+(18, 'User 18', 'user18@gmail.com', '$2y$10$CciWALG5XZUcja09NF5/jel2ZCB3sDd3yeRhN1iBdeKaod31atj2C', NULL, 0, NULL, '2024-11-19 03:07:43', '2024-11-19 03:07:43'),
+(19, 'User 19', 'user19@gmail.com', '$2y$10$NbaTPDo7s0CaeuSzT0Smk.pEw7gjqbm//N9n50dsWsInJQYdwR0oG', NULL, 0, NULL, '2024-11-19 03:07:47', '2024-11-19 03:07:47'),
+(20, 'User 20', 'user20@gmail.com', '$2y$10$FKB/bLC5UZmr84Xa9ah81eJEL/QbA7zmqlqDB40arL24A23pCglL2', NULL, 0, NULL, '2024-11-19 03:07:53', '2024-11-19 03:07:53'),
+(21, 'User 21', 'user21@gmail.com', '$2y$10$kutjvHYVQsELxOW2PoQWhOjgFVQyTrj.iMNcLoyeS6meyFA/hyl3G', NULL, 0, NULL, '2024-11-19 03:07:56', '2024-11-19 03:07:56'),
+(22, 'User 22', 'user22@gmail.com', '$2y$10$sXR4k/1iRbnbVjxcvGasDupyP3mLOdnkYHvtS8xwuFN2oFQNYQdGO', NULL, 0, '10650f87c2ebba7ea32ae40ecab78bc094cb655076c3c915c1aaa4ec61fe2ebbd', '2024-11-19 03:08:00', '2024-11-19 03:08:00'),
+(23, 'User 23', 'user23@gmail.com', '$2y$10$cDlxo2QDBWg9fbExg1Sl8uvoW3PaBlTH0t3umWp4ImudXUJhnYmQG', NULL, 0, NULL, '2024-11-19 03:08:30', '2024-11-19 03:08:30'),
+(24, 'User 24', 'user24@gmail.com', '$2y$10$dMXezjCwUZoMJwRbR96rceTgjvi2OykxsTnuDuOVZwhaxI00Xd9p6', NULL, 0, NULL, '2024-11-19 03:08:35', '2024-11-19 03:08:35'),
+(25, 'User 25', 'user25@gmail.com', '$2y$10$bbdmopZJ4T.ZnE3RtK6bXuasM.pDRvAZVZYxm7AWarxE5D7ppwSWG', NULL, 0, NULL, '2024-11-19 03:08:38', '2024-11-19 03:08:38'),
+(26, 'User 26', 'user26@gmail.com', '$2y$10$TZJvRiCkWJZH.3CGDyrKKOKhlnAmtaif719Lnzj03kL9jyBl3E6Yy', NULL, 0, NULL, '2024-11-19 03:08:42', '2024-11-19 03:08:42'),
+(27, 'User 27', 'user27@gmail.com', '$2y$10$Gg1PxHjAlXUVZXvXPuZ09upClpy5vODaTpUpEjbuoBbcf3CbKoZ9q', NULL, 0, NULL, '2024-11-19 03:08:54', '2024-11-19 03:08:54'),
+(28, 'User 28', 'user28@gmail.com', '$2y$10$wFREDRCYO.QTchS4qCgznO6rKzNX4QqTVeoJZN.MiY323Lz0cULJe', NULL, 0, NULL, '2024-11-19 03:08:58', '2024-11-19 03:08:58'),
+(29, 'User 29', 'user29@gmail.com', '$2y$10$LuQFaFRmHDACYaCHapSWOOaZxYQZkg.2/j4MbnKZHfh5P4YVNSUIW', NULL, 0, NULL, '2024-11-19 03:09:02', '2024-11-19 03:09:02'),
+(30, 'User 30', 'user30@gmail.com', '$2y$10$HuU2pV7yIwEqnVV46RePYuxAlDe3AvfMbnuSPR29GjYXF3ij6AnZ2', NULL, 0, NULL, '2024-11-24 09:00:33', '2024-11-24 09:00:33'),
+(31, 'User 31', 'user31@gmail.com', '$2y$10$qwISDC7Uz8CZlVfkl6VReuU0HkUEg3.kyS4mhNBYcZQKsXV9nZwCq', NULL, 1, NULL, '2024-11-24 09:00:50', '2024-11-24 09:00:50'),
+(32, 'User 3', 'user3@gmail.com', '$2y$10$kE4Us8PJkVv7L6nDK0gOteT5l3BJunsMzfwzhSyShUg5yaH919syK', NULL, 0, NULL, '2024-12-08 08:45:21', '2024-12-08 08:45:21');
+
+-- --------------------------------------------------------
+
+--
+-- Cấu trúc bảng cho bảng `users_courses`
+--
+
+CREATE TABLE `users_courses` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `courses_id` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `users_courses`
+--
+
+INSERT INTO `users_courses` (`id`, `user_id`, `courses_id`) VALUES
+(1, 11, 1),
+(2, 13, 2),
+(3, 13, 3),
+(4, 15, 4);
+
+--
+-- Chỉ mục cho các bảng đã đổ
+--
+
+--
+-- Chỉ mục cho bảng `blacklist_tokens`
+--
+ALTER TABLE `blacklist_tokens`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `token` (`token`);
+
+--
+-- Chỉ mục cho bảng `courses`
+--
+ALTER TABLE `courses`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Chỉ mục cho bảng `rate_limit`
+--
+ALTER TABLE `rate_limit`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Chỉ mục cho bảng `refresh_tokens`
+--
+ALTER TABLE `refresh_tokens`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Chỉ mục cho bảng `request_log`
+--
+ALTER TABLE `request_log`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Chỉ mục cho bảng `users`
+--
+ALTER TABLE `users`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Chỉ mục cho bảng `users_courses`
+--
+ALTER TABLE `users_courses`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `courses_id` (`courses_id`),
+  ADD KEY `user_id` (`user_id`);
+
+--
+-- AUTO_INCREMENT cho các bảng đã đổ
+--
+
+--
+-- AUTO_INCREMENT cho bảng `blacklist_tokens`
+--
+ALTER TABLE `blacklist_tokens`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+
+--
+-- AUTO_INCREMENT cho bảng `courses`
+--
+ALTER TABLE `courses`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT cho bảng `rate_limit`
+--
+ALTER TABLE `rate_limit`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+
+--
+-- AUTO_INCREMENT cho bảng `refresh_tokens`
+--
+ALTER TABLE `refresh_tokens`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+
+--
+-- AUTO_INCREMENT cho bảng `request_log`
+--
+ALTER TABLE `request_log`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=112;
+
+--
+-- AUTO_INCREMENT cho bảng `users`
+--
+ALTER TABLE `users`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
+
+--
+-- AUTO_INCREMENT cho bảng `users_courses`
+--
+ALTER TABLE `users_courses`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- Các ràng buộc cho các bảng đã đổ
+--
+
+--
+-- Các ràng buộc cho bảng `users_courses`
+--
+ALTER TABLE `users_courses`
+  ADD CONSTRAINT `users_courses_ibfk_1` FOREIGN KEY (`courses_id`) REFERENCES `courses` (`id`),
+  ADD CONSTRAINT `users_courses_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`);
+COMMIT;
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
